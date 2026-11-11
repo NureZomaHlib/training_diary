@@ -1,0 +1,11 @@
+# https://dart.dev/tools/private-files
+# Created by `dart pub`
+.dart_tool/
+build/
+
+# Секрети та локальні налаштування
+.env
+*.local
+
+# Тимчасові файли Word
+docs/~$*

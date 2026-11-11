@@ -1,0 +1,19 @@
+# Набір правил recommended, посилений строгими режимами аналізатора
+# та додатковими правилами, що відповідають вимогам до коду дисципліни.
+include: package:lints/recommended.yaml
+
+analyzer:
+  language:
+    strict-casts: true
+    strict-inference: true
+    strict-raw-types: true
+
+linter:
+  rules:
+    - public_member_api_docs
+    - prefer_final_locals
+    - prefer_single_quotes
+    - always_declare_return_types
+    - directives_ordering
+    - avoid_dynamic_calls
+    - unnecessary_lambdas
