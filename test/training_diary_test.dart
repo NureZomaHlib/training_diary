@@ -2,6 +2,25 @@ import 'package:test/test.dart';
 import 'package:training_diary/training_diary.dart';
 
 void main() {
+  final today = DateTime(2026, 11, 15);
+
+  Workout sample({
+    DateTime? date,
+    String activity = 'біг',
+    Duration duration = const Duration(minutes: 40),
+    double distanceKm = 8,
+    int heartRate = 150,
+    int wellbeing = 4,
+  }) => (
+    date: date ?? DateTime(2026, 11, 1),
+    activity: activity,
+    duration: duration,
+    distanceKm: distanceKm,
+    heartRate: heartRate,
+    wellbeing: wellbeing,
+    deviceId: 'GRM-4821-7731',
+  );
+
   group('parseDate', () {
     test('розбирає коректну дату', () {
       expect(parseDate('2026-10-05'), DateTime(2026, 10, 5));
@@ -49,6 +68,11 @@ void main() {
       );
       expect(result.error, contains('дистанція'));
     });
+
+    test('повідомляє про невірний ідентифікатор трекера', () {
+      final result = parseLine('2026-11-05;плавання;0:55;2.0;133;4;xmi-1');
+      expect(result.error, contains('трекера'));
+    });
   });
 
   test('parseAll нумерує рядки з помилками з одиниці', () {
@@ -64,5 +88,27 @@ void main() {
     final a = makeCounter();
     final b = makeCounter();
     expect([a(), a(), b(), a()], [1, 2, 1, 3]);
+  });
+
+  group('validateWorkout', () {
+    test('коректний запис не має порушень', () {
+      expect(validateWorkout(sample(), today: today), isEmpty);
+    });
+
+    test('виявляє кілька порушень одночасно', () {
+      final issues = validateWorkout(
+        sample(heartRate: 250, wellbeing: 7, distanceKm: -1),
+        today: today,
+      );
+      expect(issues, hasLength(3));
+    });
+
+    test('виявляє дату в майбутньому', () {
+      final issues = validateWorkout(
+        sample(date: DateTime(2027)),
+        today: today,
+      );
+      expect(issues.single, contains('майбутньому'));
+    });
   });
 }

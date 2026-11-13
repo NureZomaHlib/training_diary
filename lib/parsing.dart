@@ -14,6 +14,16 @@ final RegExp _durationPattern = RegExp(
   r'^(?<hours>\d{1,2}):(?<minutes>[0-5]\d)$',
 );
 
+/// Джерело шаблону ідентифікатора трекера: `ABC-1234-5678`.
+///
+/// Групи: `vendor` — код виробника, `serial` — серійна частина, яка
+/// приховується у звіті, `tail` — останні чотири цифри.
+const String _deviceIdSource =
+    r'(?<vendor>[A-Z]{3})-(?<serial>\d{4})-(?<tail>\d{4})';
+
+/// Шаблон для перевірки, що поле цілком є ідентифікатором трекера.
+final RegExp _deviceIdFieldPattern = RegExp('^$_deviceIdSource\$');
+
 /// Розбирає рядок [raw] у дату формату `yyyy-MM-dd`.
 ///
 /// Повертає `null`, якщо рядок не відповідає формату або описує неіснуючу
@@ -46,6 +56,10 @@ Duration? parseDuration(String raw) {
 
   return Duration(hours: hours, minutes: minutes);
 }
+
+/// Перевіряє, що [raw] цілком є ідентифікатором трекера формату
+/// `ABC-1234-5678`.
+bool isValidDeviceId(String raw) => _deviceIdFieldPattern.hasMatch(raw);
 
 /// Розбирає рядок [line] у запис тренування.
 ///
@@ -86,6 +100,10 @@ ParseResult parseLine(String line) {
     final wellbeing = int.tryParse(rawWellbeing);
     if (wellbeing == null) {
       return _failure('самопочуття «$rawWellbeing» не є цілим числом');
+    }
+
+    if (!isValidDeviceId(deviceId)) {
+      return _failure('ідентифікатор трекера «$deviceId» має невірний формат');
     }
 
     return (

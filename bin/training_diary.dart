@@ -1,7 +1,10 @@
 import 'package:training_diary/training_diary.dart';
 
-/// Точка входу: розбирає вбудовані дані та виводить помилки розбору.
+/// Точка входу: розбирає вбудовані дані, виводить помилки розбору та
+/// валідації.
 void main() {
+  final today = DateTime.now();
+
   final (:workouts, :errors) = parseAll(rawWorkouts);
   print(
     'Прочитано рядків: ${rawWorkouts.length}, '
@@ -11,4 +14,17 @@ void main() {
     print('\n--- Помилки розбору ---');
     errors.forEach(print);
   }
+
+  final (:valid, :invalid) = splitByValidity(workouts, today: today);
+  if (invalid.isNotEmpty) {
+    print('\n--- Порушення допустимих меж ---');
+    for (final (:workout, :issues) in invalid) {
+      print(
+        '${workout.date.toIso8601String().substring(0, 10)} ${workout.activity}',
+      );
+      print('  → ${issues.join('; ')}');
+    }
+  }
+
+  print('\nКоректних записів: ${valid.length}');
 }

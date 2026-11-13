@@ -7,4 +7,5 @@ library;
 export 'constants.dart';
 export 'data.dart';
 export 'parsing.dart';
+export 'validation.dart';
 export 'workout.dart';
