@@ -27,3 +27,6 @@ const double maxDistanceKm = 300;
 
 /// Максимальна тривалість одного тренування.
 const Duration maxDuration = Duration(hours: 12);
+
+/// Пульс, починаючи з якого тренування вважається інтенсивним, уд./хв.
+const int highIntensityHeartRate = 160;

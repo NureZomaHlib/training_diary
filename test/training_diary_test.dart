@@ -111,4 +111,41 @@ void main() {
       expect(issues.single, contains('майбутньому'));
     });
   });
+
+  group('аналітика', () {
+    final items = [
+      sample(distanceKm: 5, heartRate: 140),
+      sample(activity: 'йога', distanceKm: 0, heartRate: 90),
+      sample(
+        distanceKm: 10,
+        heartRate: 170,
+        duration: const Duration(hours: 1),
+      ),
+    ];
+
+    test('згортання', () {
+      expect(totalDistance(items), 15);
+      expect(averageHeartRate(items), 400 / 3);
+      expect(averageHeartRate([]), isNull);
+      expect(longestWorkout(items)?.distanceKm, 10);
+      expect(longestWorkout([]), isNull);
+    });
+
+    test('firstHighIntensity', () {
+      expect(firstHighIntensity(items)?.heartRate, 170);
+      expect(firstHighIntensity(items.take(2)), isNull);
+    });
+
+    test('групування', () {
+      final groups = groupByActivity(items);
+      expect(groups.keys, unorderedEquals(['біг', 'йога']));
+      expect(groups['біг'], hasLength(2));
+    });
+
+    test('сортування не змінює вихідний список і враховує напрям', () {
+      final desc = sortWorkouts(items, by: compareByDistance, ascending: false);
+      expect(desc.map((w) => w.distanceKm), [10, 5, 0]);
+      expect(items.first.distanceKm, 5);
+    });
+  });
 }

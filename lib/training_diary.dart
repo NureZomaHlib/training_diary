@@ -4,6 +4,7 @@
 /// (обмеження лабораторної роботи 1).
 library;
 
+export 'analytics.dart';
 export 'constants.dart';
 export 'data.dart';
 export 'parsing.dart';

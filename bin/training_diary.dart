@@ -27,4 +27,5 @@ void main() {
   }
 
   print('\nКоректних записів: ${valid.length}');
+  print('Сумарна дистанція: ${totalDistance(valid).toStringAsFixed(1)} км');
 }

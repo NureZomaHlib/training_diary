@@ -24,3 +24,6 @@ typedef Workout = ({
 /// Рівно одне з полів має значення: [value] — розібране тренування,
 /// або [error] — опис причини, з якої рядок не вдалося розібрати.
 typedef ParseResult = ({Workout? value, String? error});
+
+/// Порівнювач двох тренувань для сортування.
+typedef WorkoutComparator = int Function(Workout a, Workout b);
