@@ -1,7 +1,10 @@
 import 'package:training_diary/training_diary.dart';
 
+/// Кількість найдовших тренувань у розділі «Топ» звіту.
+const int _reportTopCount = 3;
+
 /// Точка входу: розбирає вбудовані дані, виводить помилки розбору та
-/// валідації.
+/// валідації, а потім — текстовий звіт.
 void main() {
   final today = DateTime.now();
 
@@ -19,11 +22,10 @@ void main() {
   if (invalid.isNotEmpty) {
     print('\n--- Порушення допустимих меж ---');
     for (final (:workout, :issues) in invalid) {
-      print('${formatDateShort(workout.date)} ${workout.activity}');
-      print('  → ${issues.join('; ')}');
+      print('${formatWorkout(workout)}\n  → ${issues.join('; ')}');
     }
   }
 
-  print('\nКоректних записів: ${valid.length}');
-  print('Сумарна дистанція: ${totalDistance(valid).toStringAsFixed(1)} км');
+  print('');
+  print(buildReport(valid, topCount: _reportTopCount, today: today));
 }

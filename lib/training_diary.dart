@@ -8,5 +8,6 @@ export 'analytics.dart';
 export 'constants.dart';
 export 'data.dart';
 export 'parsing.dart';
+export 'report.dart';
 export 'validation.dart';
 export 'workout.dart';

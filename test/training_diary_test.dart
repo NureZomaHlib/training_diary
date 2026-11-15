@@ -166,4 +166,16 @@ void main() {
       'трекер GRM-****-7731 і XMI-****-5520',
     );
   });
+
+  test('buildReport використовує параметри', () {
+    final report = buildReport(
+      [sample()],
+      topCount: 1,
+      separator: ' ; ',
+      today: today,
+    );
+    expect(report, contains('Топ-1'));
+    expect(report, contains(' ; '));
+    expect(report, isNot(contains('4821')));
+  });
 }

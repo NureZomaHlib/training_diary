@@ -31,8 +31,26 @@ const Duration maxDuration = Duration(hours: 12);
 /// Пульс, починаючи з якого тренування вважається інтенсивним, уд./хв.
 const int highIntensityHeartRate = 160;
 
+/// Оцінка самопочуття, починаючи з якої тренування вважається вдалим.
+const int goodWellbeing = 4;
+
+/// Кількість хвилин у годині — для форматування тривалості.
+const int minutesPerHour = 60;
+
+/// Кількість секунд у хвилині — для обчислення темпу.
+const int secondsPerMinute = 60;
+
 /// Ширина двозначного поля (хвилини, місяць, день) під час форматування.
 const int twoDigits = 2;
 
+/// Кількість знаків після коми для дистанції та середніх значень.
+const int fractionDigits = 1;
+
 /// Рядок, яким замінюється прихована частина ідентифікатора трекера.
 const String maskPlaceholder = '****';
+
+/// Ширина колонки виду активності в таблицях звіту, символів.
+const int activityColumnWidth = 9;
+
+/// Ширина колонки підпису в розділі темпу, символів.
+const int paceLabelColumnWidth = 22;
