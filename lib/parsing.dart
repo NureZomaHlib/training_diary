@@ -21,6 +21,9 @@ final RegExp _durationPattern = RegExp(
 const String _deviceIdSource =
     r'(?<vendor>[A-Z]{3})-(?<serial>\d{4})-(?<tail>\d{4})';
 
+/// Шаблон для пошуку ідентифікаторів трекера всередині довільного тексту.
+final RegExp deviceIdPattern = RegExp(_deviceIdSource);
+
 /// Шаблон для перевірки, що поле цілком є ідентифікатором трекера.
 final RegExp _deviceIdFieldPattern = RegExp('^$_deviceIdSource\$');
 
@@ -159,3 +162,17 @@ int Function() makeCounter() {
 
   return (workouts: workouts, errors: errors);
 }
+
+/// Приховує серійну частину всіх ідентифікаторів трекера в тексті [text].
+///
+/// Наприклад, `GRM-4821-7731` перетворюється на `GRM-****-7731`.
+String maskDeviceIds(String text) => text.replaceAllMapped(
+  deviceIdPattern,
+  // replaceAllMapped оголошено для довільного Pattern, тому колбек отримує
+  // базовий тип Match без доступу до іменованих груп. Перевірка `is`
+  // промотує його до RegExpMatch без явного приведення типу.
+  (match) => match is RegExpMatch
+      ? '${match.namedGroup('vendor') ?? ''}-$maskPlaceholder-'
+            '${match.namedGroup('tail') ?? ''}'
+      : match[0] ?? '',
+);

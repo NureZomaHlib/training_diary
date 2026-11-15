@@ -147,5 +147,23 @@ void main() {
       expect(desc.map((w) => w.distanceKm), [10, 5, 0]);
       expect(items.first.distanceKm, 5);
     });
+
+    test('фабрики предикатів', () {
+      expect(items.where(byActivity('йога')), hasLength(1));
+      expect(items.where(minDistance(5)), hasLength(2));
+    });
+
+    test('темп і вік запису', () {
+      expect(paceSecondsPerKm(items[0]), 480);
+      expect(paceSecondsPerKm(items[1]), isNull);
+      expect(ageInDays(items[0], today), 14);
+    });
+  });
+
+  test('maskDeviceIds приховує серійну частину', () {
+    expect(
+      maskDeviceIds('трекер GRM-4821-7731 і XMI-1034-5520'),
+      'трекер GRM-****-7731 і XMI-****-5520',
+    );
   });
 }

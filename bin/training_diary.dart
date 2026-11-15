@@ -19,9 +19,7 @@ void main() {
   if (invalid.isNotEmpty) {
     print('\n--- Порушення допустимих меж ---');
     for (final (:workout, :issues) in invalid) {
-      print(
-        '${workout.date.toIso8601String().substring(0, 10)} ${workout.activity}',
-      );
+      print('${formatDateShort(workout.date)} ${workout.activity}');
       print('  → ${issues.join('; ')}');
     }
   }

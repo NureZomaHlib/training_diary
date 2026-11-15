@@ -27,3 +27,6 @@ typedef ParseResult = ({Workout? value, String? error});
 
 /// Порівнювач двох тренувань для сортування.
 typedef WorkoutComparator = int Function(Workout a, Workout b);
+
+/// Предикат для фільтрації тренувань.
+typedef WorkoutPredicate = bool Function(Workout workout);

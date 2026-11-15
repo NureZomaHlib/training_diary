@@ -30,3 +30,9 @@ const Duration maxDuration = Duration(hours: 12);
 
 /// Пульс, починаючи з якого тренування вважається інтенсивним, уд./хв.
 const int highIntensityHeartRate = 160;
+
+/// Ширина двозначного поля (хвилини, місяць, день) під час форматування.
+const int twoDigits = 2;
+
+/// Рядок, яким замінюється прихована частина ідентифікатора трекера.
+const String maskPlaceholder = '****';
